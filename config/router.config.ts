@@ -22,24 +22,6 @@ module.exports = {
                     name: '首页',
                     component: '@/pages/home',
                 },
-                {
-                    // exact: true,
-                    name: 'home',
-                    routes: [
-                        {
-                            // exact: true,
-                            path: '/admin/111111',
-                            name: '111111',
-                            component: '@/pages/home copy'
-                        },
-                        {
-                            // exact: true,
-                            path: '/admin/222222',
-                            name: '222222',
-                            component: '@/pages/home copy 2',
-                        },
-                    ],
-                },
             ],
         },
     ],

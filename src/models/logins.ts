@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { history } from 'umi';
 import storage from '@/utils/storage';
-import API from '@/services/index';
+import { Login, Register } from '@/services/index';
 
 export default {
     namespace: 'login',
@@ -12,7 +12,7 @@ export default {
     effects: {
         // 注册
         *register({ payload }: any, { call }: any) {
-            const response = yield call(API.userRegister, payload);
+            const response = yield call(Register, payload);
             if (response.code === 200) {
                 message.success('注册成功');
                 history.push({ pathname: '/login' });
@@ -23,7 +23,7 @@ export default {
 
         // 登录
         *login({ payload }: any, { call, put }: any) {
-            const response = yield call(API.userLogin, payload);
+            const response = yield call(Login, payload);
             if (response.code === 200) {
                 message.warn(response.msg);
                 // 登录成功后需要改变用户信息 不然无法立即获取
@@ -42,24 +42,6 @@ export default {
             }
         },
 
-        // 退出登录
-        *logout({ payload }: any, { call, put }: any) {
-            const response = yield call(API.logout);
-            if (response.code === 200) {
-                message.warn(response.msg);
-                storage.localClear();
-                storage.localRemove('token');
-                yield put({
-                    type: 'handle',
-                    payload: {
-                        loginInfo: {},
-                        loginToken: '',
-                    },
-                });
-            } else {
-                message.warn(response.msg);
-            }
-        },
     },
     reducers: {
         handle(state: any, { payload }: any) {
